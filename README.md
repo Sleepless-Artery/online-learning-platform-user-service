@@ -17,3 +17,5 @@ git clone https://github.com/Sleepless-Artery/online-learning-platform-user-serv
 - Spring Boot
 - Spring Cloud
 - Flyway
+- YML
+- Maven
