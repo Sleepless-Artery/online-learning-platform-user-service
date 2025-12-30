@@ -47,7 +47,7 @@ public class EmailChangeServiceImpl implements EmailChangeService {
             throw new EmailAddressAlreadyExistsException();
         }
 
-        Boolean reserved = redisTemplate.opsForValue().setIfAbsent(
+        var reserved = redisTemplate.opsForValue().setIfAbsent(
                 "email_change_request:" + newEmailAddress,
                 userId.toString(),
                 Duration.ofMinutes(60)
@@ -65,7 +65,7 @@ public class EmailChangeServiceImpl implements EmailChangeService {
     public void confirmEmailAddressChange(String oldEmailAddress, String newEmailAddress) {
         log.info("Changing email address to '{}'", newEmailAddress);
 
-        User user = userRepository.findByEmailAddress(oldEmailAddress).orElseThrow(() -> {
+        var user = userRepository.findByEmailAddress(oldEmailAddress).orElseThrow(() -> {
             log.warn("User not found with email address: {}", oldEmailAddress);
             return new UserNotFoundException();
         });

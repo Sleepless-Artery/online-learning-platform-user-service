@@ -3,7 +3,6 @@ package org.sleepless_artery.user_service.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.sleepless_artery.user_service.dto.UserResponseDto;
 import org.sleepless_artery.user_service.service.UserCacheService;
-import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,8 @@ public class UserCacheServiceImpl implements UserCacheService {
 
     @Override
     public void putUserCache(UserResponseDto userResponseDto) {
-        Cache usersByIdCache = cacheManager.getCache("users-by-id");
-        Cache usersByEmailCache = cacheManager.getCache("users-by-email");
+        var usersByIdCache = cacheManager.getCache("users-by-id");
+        var usersByEmailCache = cacheManager.getCache("users-by-email");
         if (usersByIdCache != null) {
             usersByIdCache.put(userResponseDto.getId(), userResponseDto);
         }
@@ -32,8 +31,8 @@ public class UserCacheServiceImpl implements UserCacheService {
 
     @Override
     public void evictUserCache(Long userId, String emailAddress) {
-        Cache usersByIdCache = cacheManager.getCache("users-by-id");
-        Cache usersByEmailCache = cacheManager.getCache("users-by-email");
+        var usersByIdCache = cacheManager.getCache("users-by-id");
+        var usersByEmailCache = cacheManager.getCache("users-by-email");
         if (usersByIdCache != null) {
             redisTemplate.delete("users-by-id" + "::" + userId);
         }
@@ -45,7 +44,7 @@ public class UserCacheServiceImpl implements UserCacheService {
 
     @Override
     public boolean existsById(Long userId) {
-        Cache userIdCache = cacheManager.getCache("users-by-id");
+        var userIdCache = cacheManager.getCache("users-by-id");
         if (userIdCache != null) {
             return redisTemplate.hasKey("users-by-id" + "::" + userId);
         }

@@ -21,7 +21,7 @@ public class EmailVerificationServiceGrpcClient {
     public boolean changeEmailAddress(String oldEmailAddress, String newEmailAddress) {
         log.info("Sending gRPC request to auth-service for changing email address");
 
-        EmailAddressAvailabilityRequest request = EmailAddressAvailabilityRequest.newBuilder()
+        var request = EmailAddressAvailabilityRequest.newBuilder()
                 .setOldEmailAddress(oldEmailAddress)
                 .setNewEmailAddress(newEmailAddress)
                 .build();

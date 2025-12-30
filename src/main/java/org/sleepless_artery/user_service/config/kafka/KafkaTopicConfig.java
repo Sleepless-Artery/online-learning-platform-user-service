@@ -21,10 +21,6 @@ public class KafkaTopicConfig {
         return createTopic("deleted");
     }
 
-//    @Bean
-//    public NewTopic changeEmailAddressTopic() {
-//        return createTopic("change-email-address");
-//    }
 
     private NewTopic createTopic(String suffix) {
         return TopicBuilder

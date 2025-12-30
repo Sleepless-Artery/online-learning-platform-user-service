@@ -32,7 +32,9 @@ public class UserCreationServiceImpl extends UserCreationServiceGrpc.UserCreatio
             responseStreamObserver.onNext(CreateUserResponse.newBuilder()
                     .setSuccess(true)
                     .setMessage("User created successfully")
-                    .build());
+                    .build()
+            );
+
             responseStreamObserver.onCompleted();
         } catch (UserAlreadyExistsException e) {
             log.warn("User with email address '{}' already exists", request.getEmailAddress());
@@ -40,14 +42,17 @@ public class UserCreationServiceImpl extends UserCreationServiceGrpc.UserCreatio
             responseStreamObserver.onNext(CreateUserResponse.newBuilder()
                     .setSuccess(false)
                     .setMessage("User already exists")
-                    .build());
+                    .build()
+            );
+            
             responseStreamObserver.onCompleted();
         } catch (Exception e) {
             log.error("An error occurred on the grpc server side while creating user: {}", e.getMessage());
 
             responseStreamObserver.onError(Status.INTERNAL
                     .withDescription("Error creating user")
-                    .asRuntimeException());
+                    .asRuntimeException()
+            );
         }
     }
 }

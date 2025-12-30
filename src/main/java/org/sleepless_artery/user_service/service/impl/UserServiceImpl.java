@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto getUserById(Long id) {
         log.info("Getting user with id: {}", id);
 
-        User user = userRepository.findById(id).orElseThrow(() -> {
+        var user = userRepository.findById(id).orElseThrow(() -> {
                     log.warn("User not found with id: {}", id);
                     return new UserNotFoundException();
                 }
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto getUserByEmailAddress(String emailAddress) {
         log.info("Getting user with email address: {}", emailAddress);
 
-        User user = userRepository.findByEmailAddress(emailAddress).orElseThrow(() -> {
+        var user = userRepository.findByEmailAddress(emailAddress).orElseThrow(() -> {
             log.warn("User not found with email address: {}", emailAddress);
             return new UserNotFoundException();
         });
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException();
         }
 
-        UserResponseDto userResponseDto = userMapper.toUserResponseDto(
+        var userResponseDto = userMapper.toUserResponseDto(
                 userRepository.save(userMapper.toUser(userRequestDto))
         );
 
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto updateUser(Long id, UserRequestDto userRequestDto) {
         log.info("Updating user with id: {}", id);
 
-        User user = userRepository.findById(id).orElseThrow(() -> {
+        var user = userRepository.findById(id).orElseThrow(() -> {
                     log.warn("User not found with id: {}", id);
                     return new UserNotFoundException();
                 }
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
         emailChangeService.requestEmailChange(user.getId(), user.getEmailAddress(), userRequestDto.getEmailAddress());
 
-        UserResponseDto userResponseDto = userMapper.toUserResponseDto(userRepository.save(user));
+        var userResponseDto = userMapper.toUserResponseDto(userRepository.save(user));
         userCacheService.putUserCache(userResponseDto);
 
         return userResponseDto;
@@ -140,13 +140,13 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Long id) {
         log.info("Deleting user with id: {}", id);
 
-        User user = userRepository.findById(id).orElseThrow(() -> {
+        var user = userRepository.findById(id).orElseThrow(() -> {
                     log.warn("User not found with id: {}", id);
                     return new UserNotFoundException();
                 }
         );
 
-        String emailAddress = user.getEmailAddress();
+        var emailAddress = user.getEmailAddress();
         userRepository.delete(user);
 
         userCacheService.evictUserCache(id, emailAddress);
